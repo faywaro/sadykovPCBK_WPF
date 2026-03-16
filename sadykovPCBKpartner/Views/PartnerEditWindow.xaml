@@ -1,0 +1,207 @@
+<Window x:Class="sadykovPCBKpartner.Views.PartnerEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Height="740" Width="520"
+        MinHeight="700" MinWidth="480"
+        WindowStartupLocation="CenterOwner"
+        Background="#F5F5F5"
+        ResizeMode="CanMinimize">
+
+    <Window.Resources>
+        <Style x:Key="LabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize"   Value="12"/>
+            <Setter Property="Foreground" Value="#555555"/>
+            <Setter Property="Margin"     Value="0,10,0,3"/>
+        </Style>
+        <Style x:Key="InputStyle" TargetType="TextBox">
+            <Setter Property="Height"          Value="30"/>
+            <Setter Property="Padding"         Value="7,4"/>
+            <Setter Property="FontSize"        Value="13"/>
+            <Setter Property="Background"      Value="White"/>
+            <Setter Property="BorderBrush"     Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <Style x:Key="BtnStyle" TargetType="Button">
+            <Setter Property="Height"          Value="30"/>
+            <Setter Property="Padding"         Value="16,0"/>
+            <Setter Property="FontSize"        Value="12"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+        </Style>
+        <Style x:Key="SectionLabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize"   Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#222222"/>
+            <Setter Property="Margin"     Value="0,14,0,6"/>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="White">
+        <DockPanel>
+
+            <!-- Заголовок формы -->
+            <Border DockPanel.Dock="Top"
+                    Background="#F7F7F7"
+                    BorderBrush="#E0E0E0"
+                    BorderThickness="0,0,0,1"
+                    Padding="20,12">
+                <TextBlock x:Name="FormTitleBlock"
+                           FontSize="15" FontWeight="SemiBold"
+                           Foreground="#222222"/>
+            </Border>
+
+            <!-- Кнопки снизу -->
+            <Border DockPanel.Dock="Bottom"
+                    Background="#F7F7F7"
+                    BorderBrush="#E0E0E0"
+                    BorderThickness="0,1,0,0"
+                    Padding="20,10">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="SaveButton"
+                            Content="Сохранить"
+                            Style="{StaticResource BtnStyle}"
+                            Background="#444444"
+                            Foreground="White"
+                            BorderBrush="#444444"
+                            Click="SaveButton_Click"
+                            Margin="0,0,8,0"/>
+                    <Button Content="Отмена"
+                            Style="{StaticResource BtnStyle}"
+                            Background="White"
+                            Foreground="#555555"
+                            BorderBrush="#CCCCCC"
+                            Click="CancelButton_Click"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Основное содержимое с прокруткой -->
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="20,8,20,16">
+
+                    <!-- СЕКЦИЯ: Данные партнёра -->
+                    <TextBlock Text="Данные партнёра" Style="{StaticResource SectionLabelStyle}" Margin="0,4,0,6"/>
+
+                    <TextBlock Text="Тип партнёра *" Style="{StaticResource LabelStyle}"/>
+                    <ComboBox x:Name="PartnerTypeComboBox"
+                              Height="30" FontSize="13"
+                              Background="White"
+                              BorderBrush="#CCCCCC"
+                              DisplayMemberPath="TypeName"
+                              SelectedValuePath="Id"
+                              ToolTip="Выберите тип партнёра из списка"/>
+
+                    <TextBlock Text="Наименование компании *" Style="{StaticResource LabelStyle}"/>
+                    <TextBox x:Name="CompanyNameTextBox"
+                             Style="{StaticResource InputStyle}"
+                             MaxLength="255"
+                             ToolTip="Полное наименование компании-партнёра"/>
+
+                    <TextBlock Text="Юридический адрес *" Style="{StaticResource LabelStyle}"/>
+                    <TextBox x:Name="LegalAddressTextBox"
+                             Style="{StaticResource InputStyle}"
+                             MaxLength="500"
+                             ToolTip="Юридический адрес компании"/>
+
+                    <TextBlock Text="ИНН *" Style="{StaticResource LabelStyle}"/>
+                    <TextBox x:Name="InnTextBox"
+                             Style="{StaticResource InputStyle}"
+                             MaxLength="12"
+                             ToolTip="ИНН компании (10 или 12 цифр)"/>
+
+                    <TextBlock Text="ФИО директора *" Style="{StaticResource LabelStyle}"/>
+                    <TextBox x:Name="DirectorNameTextBox"
+                             Style="{StaticResource InputStyle}"
+                             MaxLength="255"
+                             ToolTip="Фамилия, имя и отчество директора"/>
+
+                    <TextBlock Text="Телефон *" Style="{StaticResource LabelStyle}"/>
+                    <TextBox x:Name="PhoneTextBox"
+                             Style="{StaticResource InputStyle}"
+                             MaxLength="20"
+                             ToolTip="Контактный телефон: +7 XXX XXX XX XX"/>
+
+                    <TextBlock Text="Email *" Style="{StaticResource LabelStyle}"/>
+                    <TextBox x:Name="EmailTextBox"
+                             Style="{StaticResource InputStyle}"
+                             MaxLength="255"
+                             ToolTip="Адрес электронной почты компании"/>
+
+                    <TextBlock Text="Рейтинг (целое число ≥ 0) *" Style="{StaticResource LabelStyle}"/>
+                    <TextBox x:Name="RatingTextBox"
+                             Style="{StaticResource InputStyle}"
+                             MaxLength="6"
+                             ToolTip="Рейтинг партнёра: целое число от 0 и выше"/>
+
+                    <!-- СЕКЦИЯ: Добавление записи о продаже -->
+                    <Border Margin="0,16,0,0"
+                            BorderBrush="#E0E0E0"
+                            BorderThickness="0,1,0,0"/>
+
+                    <TextBlock Text="Добавить реализацию продукции" Style="{StaticResource SectionLabelStyle}"/>
+
+                    <!-- Фильтр по артикулу -->
+                    <TextBlock Text="Фильтр по артикулу" Style="{StaticResource LabelStyle}"/>
+                    <TextBox x:Name="ArticleFilterTextBox"
+                             Style="{StaticResource InputStyle}"
+                             MaxLength="50"
+                             ToolTip="Введите артикул для фильтрации списка продуктов"
+                             TextChanged="ArticleFilterTextBox_TextChanged"/>
+
+                    <!-- Выбор продукта (фильтруемый список) -->
+                    <TextBlock Text="Продукт *" Style="{StaticResource LabelStyle}"/>
+                    <ComboBox x:Name="ProductComboBox"
+                              Height="30" FontSize="13"
+                              Background="White"
+                              BorderBrush="#CCCCCC"
+                              ToolTip="Выберите продукт из списка (используйте фильтр выше)">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Article}" FontWeight="SemiBold" Width="80" Foreground="#555555"/>
+                                    <TextBlock Text=" — "/>
+                                    <TextBlock Text="{Binding ProductName}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <!-- Количество и дата в одну строку -->
+                    <Grid Margin="0,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Количество *" Style="{StaticResource LabelStyle}"/>
+                            <TextBox x:Name="QuantityTextBox"
+                                     Style="{StaticResource InputStyle}"
+                                     MaxLength="10"
+                                     ToolTip="Количество реализованных единиц продукции"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Дата продажи *" Style="{StaticResource LabelStyle}"/>
+                            <DatePicker x:Name="SaleDatePicker"
+                                        Height="30"
+                                        FontSize="13"
+                                        BorderBrush="#CCCCCC"
+                                        ToolTip="Выберите дату реализации продукции"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Button Content="+ Добавить запись о реализации"
+                            Style="{StaticResource BtnStyle}"
+                            Background="White"
+                            Foreground="#333333"
+                            BorderBrush="#BBBBBB"
+                            HorizontalAlignment="Left"
+                            Margin="0,10,0,0"
+                            Click="AddSaleButton_Click"/>
+
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
+    </Border>
+</Window>
